@@ -1,23 +1,72 @@
 ﻿using API.Data;
 using Microsoft.EntityFrameworkCore;
-using PFA_ProjectAPI.Models.ActivityModels;
+using PFA_ProjectAPI.Models.Domain;
+using System.Runtime.InteropServices;
 
 namespace PFA_ProjectAPI.Repositories
 {
+
     public class SQLActivityRepository : IActivityRepository
     {
         private readonly TBDbContext dbContext;
+
         public SQLActivityRepository(TBDbContext dbContext) 
         { 
             this.dbContext = dbContext;
         }
+
+
+        public async Task<Activity> CreateAsync(Activity activity)
+        {
+            await dbContext.Activities.AddAsync(activity);
+            await dbContext.SaveChangesAsync();
+            return activity;
+        }
+
+        public async Task<Activity?> DeleteAsync(Guid id)
+        {
+            //Find the activity into the DB
+            var existingActivity = await dbContext.Activities.FirstOrDefaultAsync(x => x.Id == id);
+            if (existingActivity == null)
+            {
+                return null;
+
+            }
+            dbContext.Activities.Remove(existingActivity);
+            await dbContext.SaveChangesAsync();
+            return existingActivity;
+        }
+
         //implement the mtd that is in the interface
         public async Task<List<Activity>> GetAllAsync()
         {
             return await dbContext.Activities.ToListAsync();
+   
+        }
 
 
+        public async Task<Activity?>GetByIdAsync(Guid id)
+        {
+            return await dbContext.Activities.FirstOrDefaultAsync(x=>x.Id==id);
+        }
+
+        public async Task<Activity?> UpdateAsync(Guid id, Activity activity)
+        {
+            var existingActivity = await dbContext.Activities.FirstOrDefaultAsync(x => x.Id == id);
+            if (existingActivity != null)
+            {
+                return null;
+            }
+            existingActivity.Title=activity.Title;
+            existingActivity.StartDate = activity.StartDate;
+            existingActivity.EndDate = activity.EndDate;
+            existingActivity.Animator = activity.Animator;
+            existingActivity.Pictures = activity.Pictures;
+            existingActivity.TeamBuilding = activity.TeamBuilding;
+            existingActivity.Status = activity.Status;    
             
+            await dbContext.SaveChangesAsync();
+            return existingActivity;
         }
     }
 }

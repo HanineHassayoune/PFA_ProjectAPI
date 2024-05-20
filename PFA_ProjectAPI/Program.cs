@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using API.Data;
 using PFA_ProjectAPI.Repositories;
+using PFA_ProjectAPI.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,11 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("TBConnectionStri
 
 
 //inject the repository 
-builder.Services.AddScoped<IActivityRepository, SQLActivityRepository>(); 
+builder.Services.AddScoped<IActivityRepository, SQLActivityRepository>();
+builder.Services.AddScoped<IEventRepository, SQLEventRepository>();
+
+//inject automapper
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 var app = builder.Build();
 
