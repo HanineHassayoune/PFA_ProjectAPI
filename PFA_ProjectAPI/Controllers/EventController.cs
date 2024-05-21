@@ -44,9 +44,9 @@ namespace PFA_ProjectAPI.Controllers
         //GET Events
         //GET: /api/Events?filterOn=Name&filterQueru=Track
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery]String? filterOn, [FromQuery]String? filterQuery)
+        public async Task<IActionResult> GetAll([FromQuery] String? filterOn, [FromQuery] String? filterQuery)
         {
-           var eventsDomainMoel= await eventRepository.GetAllAsync();
+           var eventsDomainMoel= await eventRepository.GetAllAsync(filterOn, filterQuery);
             //Map Domain Model to Dto 
             return Ok(mapper.Map<List<EventDto>>(eventsDomainMoel));
 

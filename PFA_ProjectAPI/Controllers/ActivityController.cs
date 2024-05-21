@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,27 +17,28 @@ namespace PFA_ProjectAPI.Controllers
     //Get : https://localhost:portnumber/api/activities
     [Route("api/[controller]")]
     [ApiController]
-    public  class ActivityController : ControllerBase
+    [Authorize]
+    public class ActivityController : ControllerBase
     {
         private readonly TBDbContext dbContext;
         private readonly IActivityRepository activityRepository;
         private readonly IMapper mapper;
 
-        public ActivityController(TBDbContext dbContext , IActivityRepository activityRepository,IMapper mapper)
+        public ActivityController(TBDbContext dbContext, IActivityRepository activityRepository, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.activityRepository = activityRepository;
             this.mapper = mapper;
         }
         [HttpGet]
-        public async Task<IActionResult>  GetAllActivities()
+        public async Task<IActionResult> GetAllActivities()
         {
             //Get Data From Database - Domain models
-  
+
             var activitiesDomain = await activityRepository.GetAllAsync();
             //Map Domain Models to DTOs
             var activitiesDto = mapper.Map<List<ActivityDTO>>(activitiesDomain);
-   
+
             return Ok(activitiesDto);
         }
 
@@ -67,19 +69,19 @@ namespace PFA_ProjectAPI.Controllers
         [ValidateModel]
         public async Task<IActionResult> Create([FromBody] AddActivityRequestDto addActivityRequestDto)
         {
-           
-                //Map or Convert DTO to Domain Model
-                var activityDomainModel = mapper.Map<Activity>(addActivityRequestDto);
 
-                //Use Domain Model to create Region
-                activityDomainModel = await activityRepository.CreateAsync(activityDomainModel);
+            //Map or Convert DTO to Domain Model
+            var activityDomainModel = mapper.Map<Activity>(addActivityRequestDto);
 
-                //Map Domain model back to DTO
-                var activityDto = mapper.Map<ActivityDTO>(activityDomainModel);
-                return CreatedAtAction(nameof(GetActivityById), new { id = activityDomainModel.Id }, activityDomainModel);
+            //Use Domain Model to create Region
+            activityDomainModel = await activityRepository.CreateAsync(activityDomainModel);
 
-         
-           
+            //Map Domain model back to DTO
+            var activityDto = mapper.Map<ActivityDTO>(activityDomainModel);
+            return CreatedAtAction(nameof(GetActivityById), new { id = activityDomainModel.Id }, activityDomainModel);
+
+
+
         }
 
 
@@ -91,23 +93,23 @@ namespace PFA_ProjectAPI.Controllers
         [ValidateModel]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateActivityRequestDto updateActivityRequestDto)
         {
-                //Map DTO Domain Model
-                var activityDomainModel = mapper.Map<Activity>(updateActivityRequestDto);
+            //Map DTO Domain Model
+            var activityDomainModel = mapper.Map<Activity>(updateActivityRequestDto);
 
-                //check if region exists
-                //var activityDomainModel= await dbContext.Activities.FirstOrDefaultAsync(x=>x.Id == id);
-                activityDomainModel = await activityRepository.UpdateAsync(id, activityDomainModel);
+            //check if region exists
+            //var activityDomainModel= await dbContext.Activities.FirstOrDefaultAsync(x=>x.Id == id);
+            activityDomainModel = await activityRepository.UpdateAsync(id, activityDomainModel);
 
-                if (activityDomainModel == null)
-                {
-                    return NotFound();
-                }
+            if (activityDomainModel == null)
+            {
+                return NotFound();
+            }
 
-                //Convert Domain Model to DTO
-                var activityDto = mapper.Map<ActivityDTO>(activityDomainModel);
-                return Ok(activityDto);
+            //Convert Domain Model to DTO
+            var activityDto = mapper.Map<ActivityDTO>(activityDomainModel);
+            return Ok(activityDto);
 
-           
+
 
         }
 
@@ -120,7 +122,7 @@ namespace PFA_ProjectAPI.Controllers
         //kont ketbe [FromRoute] Guid id me7abich ya3mil l delete ki radithe Guid id
         public async Task<IActionResult> Delete(Guid id)
         {
-            var activityDomainModel= await activityRepository.DeleteAsync(id);
+            var activityDomainModel = await activityRepository.DeleteAsync(id);
             if (activityDomainModel == null)
             {
                 return NotFound();

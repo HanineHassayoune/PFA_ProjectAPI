@@ -37,12 +37,12 @@ namespace PFA_ProjectAPI.Repositories
         public async Task<List<Event>> GetAllAsync(String? filterOn=null,String? filterQuery=null)
         {
             
-            var events =dbContext.Events.ToList().AsQueryable();
+            var events =dbContext.Events.AsQueryable();
             //Filtring
             if(String.IsNullOrWhiteSpace(filterOn)==false && String.IsNullOrWhiteSpace(filterQuery) == false)
             {
-                if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase){
-                    events = events.Where(x=>x.Name==filterQuery);
+                if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase)){
+                    events = events.Where(x=>x.Name.Contains(filterQuery));
                 }
                 
             }

@@ -5,7 +5,7 @@ namespace API.Data
 {
     public class TBDbContext : DbContext
     {
-        public TBDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        public TBDbContext(DbContextOptions<TBDbContext>dbContextOptions) : base(dbContextOptions)
         {
 
         }
