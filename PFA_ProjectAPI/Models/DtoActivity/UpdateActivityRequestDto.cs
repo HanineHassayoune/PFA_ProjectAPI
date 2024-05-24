@@ -15,7 +15,7 @@ namespace PFA_ProjectAPI.Models.DTO
         [Required]
         public string Animator { get; set; }
         [Required]
-        public ActivityEnum Status { get; set; }
+        public string Status { get; set; }
         [Required]
         [MaxLength(1000)]
         public string Description { get; set; }

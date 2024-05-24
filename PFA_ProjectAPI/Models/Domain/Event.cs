@@ -1,4 +1,6 @@
-﻿namespace PFA_ProjectAPI.Models.Domain
+﻿using PFA_ProjectAPI.Models.Enums;
+
+namespace PFA_ProjectAPI.Models.Domain
 {
     public class Event
     {
