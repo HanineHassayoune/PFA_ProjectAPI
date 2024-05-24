@@ -2,8 +2,8 @@
 {
     public enum ActivityEnum
     {
-        CLOSED,
-        STARTED,
+        CLOSED=0,
+        CREATED,
         CANCELED,
     }
 }

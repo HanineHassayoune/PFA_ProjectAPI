@@ -34,21 +34,23 @@ namespace PFA_ProjectAPI.Repositories
         }
 
         //apply sorting , filtring,an pagination in between these two lines
-        public async Task<List<Event>> GetAllAsync(String? filterOn=null,String? filterQuery=null)
+        public async Task<List<Event>> GetAllAsync(string? filterOn = null, string? filterQuery = null)
         {
-            
-            var events =dbContext.Events.AsQueryable();
-            //Filtring
-            if(String.IsNullOrWhiteSpace(filterOn)==false && String.IsNullOrWhiteSpace(filterQuery) == false)
+            var events = dbContext.Events.AsQueryable();
+
+            // Filtring
+            if (!string.IsNullOrWhiteSpace(filterOn) && !string.IsNullOrWhiteSpace(filterQuery))
             {
-                if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase)){
-                    events = events.Where(x=>x.Name.Contains(filterQuery));
+                if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    events = events.Where(x => x.Name.Contains(filterQuery));
                 }
-                
             }
-            return await events.ToListAsync();
-          // return await dbContext.Events.ToListAsync();
+
+            // Inclure les activités pour chaque événement
+            return await events.Include(e => e.Activities).ToListAsync();
         }
+
 
         public async Task<Event?> GetByIdAsync(Guid id)
         {
@@ -69,10 +71,8 @@ namespace PFA_ProjectAPI.Repositories
             existingEvent.Name=evnt.Name;
             existingEvent.StartDate=evnt.StartDate;
             existingEvent.EndDate=evnt.EndDate;
-            existingEvent.Participants=evnt.Participants;
             existingEvent.Creator=evnt.Creator;
-            existingEvent.Capacity=evnt.Capacity;
-            existingEvent.Activities=evnt.Activities;
+            existingEvent.Capacity = evnt.Capacity;
             existingEvent.Status=evnt.Status;
             existingEvent.Category=evnt.Category;
 

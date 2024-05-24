@@ -9,13 +9,12 @@ namespace PFA_ProjectAPI.Models.DtoEvent
         public string Name { get; set; }
 
         [Required]
-        public string StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Required]
-        public string EndDate { get; set; }
+        public DateTime EndDate { get; set; }
 
-        [Required]
-        public string Participants { get; set; }
+       
 
         [Required]
         public string Creator { get; set; }
@@ -23,8 +22,6 @@ namespace PFA_ProjectAPI.Models.DtoEvent
         [Required]
         public int Capacity { get; set; }
 
-        [Required]
-        public string Activities { get; set; }
 
         [Required]
         public string Status { get; set; }

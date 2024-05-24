@@ -45,6 +45,21 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost4200",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
+
+
+
 //dependency injection
 // inject our Dbcontext class TBDbContext in our application
 builder.Services.AddDbContext<TBDbContext>(options =>
@@ -104,6 +119,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+
+app.UseCors("AllowLocalhost4200");
 app.UseAuthentication();
 app.UseAuthorization();
 

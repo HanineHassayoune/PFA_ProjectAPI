@@ -34,7 +34,7 @@ namespace PFA_ProjectAPI.Controllers
         //GET all activities
         //GET: https://localhost:portnumber/api/regions
         [HttpGet]
-        [Authorize(Roles ="Reader")]
+       // [Authorize(Roles ="Reader")]
         public async Task<IActionResult> GetAllActivities()
         {
             //Get Data From Database - Domain models
@@ -51,7 +51,7 @@ namespace PFA_ProjectAPI.Controllers
         //Get : https://localhost:portnumber/api/activities/{id}
         [HttpGet]
         [Route("{id:Guid}")]
-        [Authorize(Roles ="Reader")]
+       // [Authorize(Roles ="Reader")]
         public async Task<IActionResult> GetActivityById(Guid id)
         {
 
@@ -72,7 +72,7 @@ namespace PFA_ProjectAPI.Controllers
         //POST: https://localhost:portnumber/api/activities
         [HttpPost]
         [ValidateModel]
-        [Authorize(Roles = "Writer")]
+       // [Authorize(Roles = "Writer")]
         public async Task<IActionResult> Create([FromBody] AddActivityRequestDto addActivityRequestDto)
         {
 
@@ -97,7 +97,7 @@ namespace PFA_ProjectAPI.Controllers
         [HttpPut]
         [Route("{id:Guid}")]
         [ValidateModel]
-        [Authorize(Roles = "Writer")]
+       // [Authorize(Roles = "Writer")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateActivityRequestDto updateActivityRequestDto)
         {
             //Map DTO Domain Model
@@ -126,7 +126,7 @@ namespace PFA_ProjectAPI.Controllers
         //DELETE: https://localhost:portnumber/api/activities/{id}
         [HttpDelete]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "Writer , Reader")]
+       // [Authorize(Roles = "Writer , Reader")]
         //kont ketbe [FromRoute] Guid id me7abich ya3mil l delete ki radithe Guid id
         public async Task<IActionResult> Delete(Guid id)
         {
