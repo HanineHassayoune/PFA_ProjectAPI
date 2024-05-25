@@ -16,11 +16,6 @@ namespace PFA_ProjectAPI.Models.DtoEvent
         public string Status { get; set; }
         public string Category { get; set; }
 
-      
-
-
-
-
     }
 }
 

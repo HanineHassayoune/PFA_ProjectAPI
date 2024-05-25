@@ -65,5 +65,14 @@ namespace PFA_ProjectAPI.Repositories
             await dbContext.SaveChangesAsync();
             return existingActivity;
         }
+
+
+        public async Task<IEnumerable<Activity>> GetByEventIdAsync(Guid eventId)
+        {
+            return await dbContext.Activities
+                .Where(activity => activity.EventId == eventId)
+                .ToListAsync();
+        }
+
     }
 }

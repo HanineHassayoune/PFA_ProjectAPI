@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PFA_ProjectAPI.Models.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace PFA_ProjectAPI.Models.DtoEvent
 {
@@ -24,5 +25,9 @@ namespace PFA_ProjectAPI.Models.DtoEvent
 
         [Required]
         public string Category { get; set; }
+
+       
+
+
     }
 }

@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PFA_ProjectAPI.Migrations
 {
     [DbContext(typeof(TBDbContext))]
-    partial class TBDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240525114627_img")]
+    partial class img
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,9 +105,6 @@ namespace PFA_ProjectAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("EventId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("FileExtension")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -118,9 +118,6 @@ namespace PFA_ProjectAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EventId")
-                        .IsUnique();
 
                     b.ToTable("Images");
                 });
@@ -136,22 +133,9 @@ namespace PFA_ProjectAPI.Migrations
                     b.Navigation("Event");
                 });
 
-            modelBuilder.Entity("PFA_ProjectAPI.Models.Domain.Image", b =>
-                {
-                    b.HasOne("PFA_ProjectAPI.Models.Domain.Event", "Event")
-                        .WithOne("Image")
-                        .HasForeignKey("PFA_ProjectAPI.Models.Domain.Image", "EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Event");
-                });
-
             modelBuilder.Entity("PFA_ProjectAPI.Models.Domain.Event", b =>
                 {
                     b.Navigation("Activities");
-
-                    b.Navigation("Image");
                 });
 #pragma warning restore 612, 618
         }

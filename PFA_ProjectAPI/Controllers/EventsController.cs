@@ -6,6 +6,7 @@ using PFA_ProjectAPI.CustomActionFilter;
 using PFA_ProjectAPI.Models.Domain;
 using PFA_ProjectAPI.Models.DTO;
 using PFA_ProjectAPI.Models.DtoEvent;
+using PFA_ProjectAPI.Models.DtoImage;
 using PFA_ProjectAPI.Repositories;
 
 namespace PFA_ProjectAPI.Controllers
@@ -13,32 +14,58 @@ namespace PFA_ProjectAPI.Controllers
     // /api/event
     [Route("api/[controller]")]
     [ApiController]
-    public class EventController : ControllerBase
+    public class EventsController : ControllerBase
     {
         private readonly IEventRepository eventRepository;
         private readonly IMapper mapper;
+        private readonly IImageRepository imageRepository;
 
-        public EventController(IMapper mapper, IEventRepository eventRepository)
+        public EventsController(IMapper mapper, IEventRepository eventRepository , IImageRepository imageRepository)
         {
           
             this.mapper = mapper;
             this.eventRepository = eventRepository;
+            this.imageRepository = imageRepository;
         }
 
         //POST To create New Event
         //POST: https://localhost:portnumber/api/events
         [HttpPost]
         [ValidateModel]
-        public async Task<IActionResult> Create([FromBody] AddEventRequestDto addEventRequestDto) 
+        public async Task<IActionResult> Create([FromForm] AddEventRequestDto addEventRequestDto, [FromForm] ImageUploadRequestDto request) 
         {
-            //Map or Convert DTO to Domain Model
-            var eventDomainModel = mapper.Map<Event>(addEventRequestDto);
 
-            await eventRepository.CreateAsync(eventDomainModel);
+            ValidateFileUpload(request);
+            if (ModelState.IsValid)
+            {
+                var eventDomainModel = mapper.Map<Event>(addEventRequestDto);
+
+                var eventEntity = await eventRepository.CreateAsync(eventDomainModel);
+
+                //convert dto to domain model
+                var imageDomainModel = new Image
+                {
+                    File = request.File,
+                    FileExtension = Path.GetExtension(request.File.FileName),
+                    FileName = request.FileName,
+                    Event = eventEntity
+                };
+           
+            await imageRepository.Upload(imageDomainModel);
+          
             //Map Domain model to Dto
             return Ok(mapper.Map<EventDto>(eventDomainModel));
-          
 
+            }
+            return BadRequest();
+        }
+
+         private void ValidateFileUpload(ImageUploadRequestDto request)
+        {
+            var allowedExtension = new string[] { ".jpg", ".jpeg", ".png" };
+            if(!allowedExtension.Contains(Path.GetExtension(request.File.FileName))) {
+                ModelState.AddModelError("file", "Unsupported file extension");
+            }
         }
 
         //GET Events
@@ -106,5 +133,9 @@ namespace PFA_ProjectAPI.Controllers
             //Map  Domain Model to DTO
             return Ok(mapper.Map<EventDto>(deleteEventDomainModel));
         }
+        
+
+
+        
     }
 }
