@@ -1,4 +1,5 @@
-﻿using PFA_ProjectAPI.Models.Enums;
+﻿using Microsoft.Extensions.Hosting;
+using PFA_ProjectAPI.Models.Enums;
 using System.Reflection.Metadata;
 
 namespace PFA_ProjectAPI.Models.Domain
@@ -14,15 +15,9 @@ namespace PFA_ProjectAPI.Models.Domain
         public string Status { get; set; }
         public string Category { get; set; }
 
-        // Collection navigation property
+        // Collection navigation properties
         public ICollection<Activity> Activities { get; set; }
-
-        //one to many
-        public ICollection<Feedback> Feedbacks { get; set; }
-
-        // Navigation property for one-to-one relationship
-       // public Image? Image { get; set; }
-
         public ICollection<Image> Images { get; set; }
+        public ICollection<Feedback> Feedbacks { get; set; } 
     }
 }

@@ -129,10 +129,10 @@ namespace PFA_ProjectAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ActivityId")
+                    b.Property<Guid?>("ActivityId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("EventId")
+                    b.Property<Guid?>("EventId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FileExtension")
@@ -182,15 +182,11 @@ namespace PFA_ProjectAPI.Migrations
                 {
                     b.HasOne("PFA_ProjectAPI.Models.Domain.Activity", "Activity")
                         .WithMany("Images")
-                        .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ActivityId");
 
                     b.HasOne("PFA_ProjectAPI.Models.Domain.Event", "Event")
                         .WithMany("Images")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EventId");
 
                     b.Navigation("Activity");
 

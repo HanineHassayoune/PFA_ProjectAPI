@@ -1,11 +1,10 @@
 ﻿using API.Data;
 using Microsoft.EntityFrameworkCore;
 using PFA_ProjectAPI.Models.Domain;
-using System.Diagnostics;
 
 namespace PFA_ProjectAPI.Repositories
 {
-    public class SQLFeedbackRepository:IFeedbackRepository
+    public class SQLFeedbackRepository : IFeedbackRepository
     {
         private readonly TBDbContext dbContext;
         public SQLFeedbackRepository(TBDbContext dbContext)
@@ -32,19 +31,19 @@ namespace PFA_ProjectAPI.Repositories
             dbContext.Feedbacks.Remove(existingFeedback);
             await dbContext.SaveChangesAsync();
             return existingFeedback;
-            
+
         }
 
         public async Task<List<Feedback>> GetAllAsync()
         {
-           return await dbContext.Feedbacks.ToListAsync();
+            return await dbContext.Feedbacks.ToListAsync();
         }
 
         public async Task<Feedback?> GetByIdAsync(Guid id)
         {
-           return await dbContext.Feedbacks.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbContext.Feedbacks.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-       
+
     }
 }

@@ -2,6 +2,7 @@
 using PFA_ProjectAPI.Models.Domain;
 using PFA_ProjectAPI.Models.DTO;
 using PFA_ProjectAPI.Models.DtoEvent;
+using PFA_ProjectAPI.Models.DtoFeadback;
 using PFA_ProjectAPI.Models.DtoFeedback;
 using PFA_ProjectAPI.Models.Enums;
 

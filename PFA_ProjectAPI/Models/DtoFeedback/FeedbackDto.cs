@@ -1,4 +1,4 @@
-﻿namespace PFA_ProjectAPI.Models.DtoFeedback
+﻿namespace PFA_ProjectAPI.Models.DtoFeadback
 {
     public class FeedbackDto
     {

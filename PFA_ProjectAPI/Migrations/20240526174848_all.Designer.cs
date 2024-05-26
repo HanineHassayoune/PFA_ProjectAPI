@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PFA_ProjectAPI.Migrations
 {
     [DbContext(typeof(TBDbContext))]
-    [Migration("20240525172629_one to many images ")]
-    partial class onetomanyimages
+    [Migration("20240526174848_all")]
+    partial class all
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,16 +99,43 @@ namespace PFA_ProjectAPI.Migrations
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("PFA_ProjectAPI.Models.Domain.Feedback", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Commentaire")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Emoji")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Stars")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Feedbacks");
+                });
+
             modelBuilder.Entity("PFA_ProjectAPI.Models.Domain.Image", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ActivityId")
+                    b.Property<Guid?>("ActivityId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("EventId")
+                    b.Property<Guid?>("EventId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FileExtension")
@@ -127,8 +154,7 @@ namespace PFA_ProjectAPI.Migrations
 
                     b.HasIndex("ActivityId");
 
-                    b.HasIndex("EventId")
-                        .IsUnique();
+                    b.HasIndex("EventId");
 
                     b.ToTable("Images");
                 });
@@ -144,19 +170,26 @@ namespace PFA_ProjectAPI.Migrations
                     b.Navigation("Event");
                 });
 
+            modelBuilder.Entity("PFA_ProjectAPI.Models.Domain.Feedback", b =>
+                {
+                    b.HasOne("PFA_ProjectAPI.Models.Domain.Event", "Event")
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+                });
+
             modelBuilder.Entity("PFA_ProjectAPI.Models.Domain.Image", b =>
                 {
                     b.HasOne("PFA_ProjectAPI.Models.Domain.Activity", "Activity")
                         .WithMany("Images")
-                        .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ActivityId");
 
                     b.HasOne("PFA_ProjectAPI.Models.Domain.Event", "Event")
-                        .WithOne("Image")
-                        .HasForeignKey("PFA_ProjectAPI.Models.Domain.Image", "EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Images")
+                        .HasForeignKey("EventId");
 
                     b.Navigation("Activity");
 
@@ -172,7 +205,9 @@ namespace PFA_ProjectAPI.Migrations
                 {
                     b.Navigation("Activities");
 
-                    b.Navigation("Image");
+                    b.Navigation("Feedbacks");
+
+                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

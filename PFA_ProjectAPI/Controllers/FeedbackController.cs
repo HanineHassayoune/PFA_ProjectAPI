@@ -1,18 +1,17 @@
 ﻿using API.Data;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using PFA_ProjectAPI.CustomActionFilter;
 using PFA_ProjectAPI.Models.Domain;
-using PFA_ProjectAPI.Models.DTO;
-using PFA_ProjectAPI.Models.DtoFeedback;
+using PFA_ProjectAPI.Models.DtoFeadback;
 using PFA_ProjectAPI.Repositories;
+
 namespace PFA_ProjectAPI.Controllers
 {
     //Get All feedbacks
     //Get : https://localhost:portnumber/api/feedbacks
     [Route("api/[controller]")]
     [ApiController]
-    public class FeedbacksController: ControllerBase
+    public class FeedbacksController : ControllerBase
     {
         private readonly TBDbContext dbContext;
         private readonly IFeedbackRepository feedbackRepository;
@@ -22,7 +21,7 @@ namespace PFA_ProjectAPI.Controllers
             this.dbContext = dbContext;
             this.feedbackRepository = feedbackRepository;
             this.mapper = mapper;
-            
+
         }
 
 

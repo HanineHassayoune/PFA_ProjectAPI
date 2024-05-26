@@ -14,6 +14,6 @@ namespace PFA_ProjectAPI.Models.DTO
         public string Status { get; set; }
         public string Description { get; set; }
         public Guid EventId { get; set; }
-        public Event Event { get; set; } = null;
+        public Event Event { get; set; } 
     }
 }

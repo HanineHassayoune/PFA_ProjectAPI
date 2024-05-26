@@ -17,7 +17,6 @@ namespace API.Data
         public DbSet<Activity> Activities { get; set; }
 
         public DbSet<Image> Images { get; set; }
-
         public DbSet<Feedback> Feedbacks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,15 +41,15 @@ namespace API.Data
                  .HasMany(e => e.Images)
                 .WithOne(e => e.Event)
                .HasForeignKey(e => e.EventId);
-                //.IsRequired();
+            //.IsRequired();
 
-
-
+            //Configuration de la relation one-to-many entre Event et feedback
             modelBuilder.Entity<Event>()
                 .HasMany(e => e.Feedbacks)
-                .WithOne(e => e.Event)
-                .HasForeignKey(e => e.EventId)
+                .WithOne(f => f.Event)
+                .HasForeignKey(f => f.EventId)
                 .IsRequired();
+
         }
     }
 }
