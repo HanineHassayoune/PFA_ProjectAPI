@@ -17,8 +17,12 @@ namespace PFA_ProjectAPI.Models.Domain
         // Collection navigation property
         public ICollection<Activity> Activities { get; set; }
 
-        // Navigation property for one-to-one relationship
-        public Image? Image { get; set; }
+        //one to many
+        public ICollection<Feedback> Feedbacks { get; set; }
 
+        // Navigation property for one-to-one relationship
+       // public Image? Image { get; set; }
+
+        public ICollection<Image> Images { get; set; }
     }
 }

@@ -77,6 +77,7 @@ builder.Services.AddScoped<IActivityRepository, SQLActivityRepository>();
 builder.Services.AddScoped<IEventRepository, SQLEventRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IImageRepository, LocalImageRepository>();
+builder.Services.AddScoped<IFeedbackRepository, SQLFeedbackRepository>();
 
 //inject automapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));

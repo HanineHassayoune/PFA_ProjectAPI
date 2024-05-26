@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using AutoMapper;
+using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,8 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using PFA_ProjectAPI.CustomActionFilter;
 using PFA_ProjectAPI.Models.Domain;
 using PFA_ProjectAPI.Models.DTO;
+using PFA_ProjectAPI.Models.DtoEvent;
+using PFA_ProjectAPI.Models.DtoImage;
 using PFA_ProjectAPI.Models.Enums;
 using PFA_ProjectAPI.Repositories;
+//using System.Diagnostics;
 using System.Net.NetworkInformation;
 
 namespace PFA_ProjectAPI.Controllers
@@ -23,12 +27,15 @@ namespace PFA_ProjectAPI.Controllers
         private readonly TBDbContext dbContext;
         private readonly IActivityRepository activityRepository;
         private readonly IMapper mapper;
-
-        public ActivitiesController(TBDbContext dbContext, IActivityRepository activityRepository, IMapper mapper)
+        private readonly IImageRepository imageRepository;
+        private readonly IEventRepository eventRepository;
+        public ActivitiesController(TBDbContext dbContext, IActivityRepository activityRepository, IMapper mapper, IImageRepository imageRepository , IEventRepository eventRepository)
         {
             this.dbContext = dbContext;
             this.activityRepository = activityRepository;
             this.mapper = mapper;
+            this.imageRepository = imageRepository;
+            this.eventRepository = eventRepository;
         }
 
         //GET all activities
@@ -72,25 +79,19 @@ namespace PFA_ProjectAPI.Controllers
         //POST: https://localhost:portnumber/api/activities
         [HttpPost]
         [ValidateModel]
-        // [Authorize(Roles = "Writer")]
         public async Task<IActionResult> Create([FromBody] AddActivityRequestDto addActivityRequestDto)
         {
-
-            //Map or Convert DTO to Domain Model
+            // Map or Convert DTO to Domain Model
             var activityDomainModel = mapper.Map<Activity>(addActivityRequestDto);
-
-            //Use Domain Model to create Region
+          
+            // Use Domain Model to create Activity
             activityDomainModel = await activityRepository.CreateAsync(activityDomainModel);
 
-            //Map Domain model back to DTO
-            var activityDto = mapper.Map<ActivityDTO>(activityDomainModel);
-            return CreatedAtAction(nameof(GetActivityById), new { id = activityDomainModel.Id }, activityDomainModel);
-
-
-
+            // Map Domain model back to DTO
+          var activityDto = mapper.Map<ActivityDTO>(activityDomainModel);
+         return CreatedAtAction(nameof(GetActivityById), new { id = activityDomainModel.Id }, activityDto);
+            
         }
-
-
 
         //Update region
         //PUT: https://localhost:portnumber/api/activities/{id}
@@ -121,6 +122,55 @@ namespace PFA_ProjectAPI.Controllers
         }
 
 
+        //POST: /api/Images/Upload
+        [HttpPost]
+        [Route("Upload")]
+        public async Task<IActionResult> Upload([FromForm] UploadImageRequestListDto request, Guid idActivity)
+        {
+            foreach (var item in request.Files)
+            {
+               ValidateFileUpload(item);
+            }
+
+            var activityEntity = await activityRepository.GetByIdAsync(idActivity);
+
+            var eventEntity = await eventRepository.GetByIdAsync(activityEntity.EventId);
+            if (ModelState.IsValid)
+            {
+
+                //convert dto to domain model
+                foreach(var item in request.Files)
+                {
+                    var imageDomainModel = new Image
+                    {
+                        File = item,
+                        FileExtension = Path.GetExtension(item.FileName),
+                        FileName = item.FileName,
+                        Activity= activityEntity,
+                        Event= eventEntity
+
+
+
+
+                    };
+                    await imageRepository.Upload(imageDomainModel);
+                } 
+                
+
+               
+                return Ok();
+            }
+            return BadRequest(ModelState);
+        }
+
+        private void ValidateFileUpload(IFormFile request)
+        {
+            var allowedExtension = new string[] { ".jpg", ".jpeg", ".png" };
+            if (!allowedExtension.Contains(Path.GetExtension(request.FileName)))
+            {
+                ModelState.AddModelError("file", "Unsupported file extension");
+            }
+        }
 
         //Delete Activity
         //DELETE: https://localhost:portnumber/api/activities/{id}

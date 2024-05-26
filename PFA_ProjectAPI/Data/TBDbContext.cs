@@ -16,27 +16,42 @@ namespace API.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<Activity> Activities { get; set; }
 
-        public DbSet<Image> Images{ get; set; }
+        public DbSet<Image> Images { get; set; }
+
+        public DbSet<Feedback> Feedbacks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            //one to many 
+            // Configuration de la relation one-to-many entre Activity et Image
+            modelBuilder.Entity<Activity>()
+                .HasMany(a => a.Images)
+                .WithOne(i => i.Activity)
+                .HasForeignKey(i => i.ActivityId);
+
+            // Configuration de la relation one-to-many entre Event et Activity
             modelBuilder.Entity<Event>()
-                .HasMany(e => e.Activities) // Un événement a plusieurs activités
-                .WithOne(a => a.Event)       // Une activité appartient à un seul événement
-                .HasForeignKey(a => a.EventId) // Clé étrangère dans la table des activités
+                .HasMany(e => e.Activities)
+                .WithOne(a => a.Event)
+                .HasForeignKey(a => a.EventId)
                 .IsRequired();
 
-
-            // Configure one-to-one relationship
+            // Configuration de la relation one-to-one entre Event et Image
             modelBuilder.Entity<Event>()
-                .HasOne(e => e.Image)
+                 .HasMany(e => e.Images)
                 .WithOne(e => e.Event)
-                .HasForeignKey<Image>(e => e.EventId)
-                .IsRequired();
+               .HasForeignKey(e => e.EventId);
+                //.IsRequired();
 
+
+
+            modelBuilder.Entity<Event>()
+                .HasMany(e => e.Feedbacks)
+                .WithOne(e => e.Event)
+                .HasForeignKey(e => e.EventId)
+                .IsRequired();
         }
     }
 }
+

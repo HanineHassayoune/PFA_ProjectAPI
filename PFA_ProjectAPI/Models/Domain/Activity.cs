@@ -13,6 +13,8 @@ namespace PFA_ProjectAPI.Models.Domain
         public string Status { get; set; }
         public string Description { get; set; }
         public Guid EventId { get; set; }
-        public Event Event { get; set; } 
+        public Event Event { get; set; }
+
+        public ICollection<Image> Images { get; set; } 
     }
 }

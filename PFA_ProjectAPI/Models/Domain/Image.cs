@@ -16,10 +16,12 @@ namespace PFA_ProjectAPI.Models.Domain
 
         // Navigation property and foreign key for one-to-one relationship
         public Guid EventId { get; set; }
-        public Event Event { get; set; } = null!;
+        public Event Event { get; set; } 
 
+        // Foreign key and navigation property for many-to-one relationship with Activity
+        public Guid ActivityId { get; set; }
+        public Activity Activity { get; set; }
 
-      
 
     }
 }

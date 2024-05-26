@@ -8,5 +8,6 @@ namespace PFA_ProjectAPI.Models.DtoImage
         public IFormFile File { get; set; }
         [Required]
         public string FileName{ get; set; }
+       
     }
 }

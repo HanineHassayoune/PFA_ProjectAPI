@@ -2,6 +2,7 @@
 using PFA_ProjectAPI.Models.Domain;
 using PFA_ProjectAPI.Models.DTO;
 using PFA_ProjectAPI.Models.DtoEvent;
+using PFA_ProjectAPI.Models.DtoFeedback;
 using PFA_ProjectAPI.Models.Enums;
 
 namespace PFA_ProjectAPI.Mappings
@@ -20,7 +21,13 @@ namespace PFA_ProjectAPI.Mappings
             CreateMap<AddEventRequestDto, Event>();
             CreateMap<Event ,EventDto>().ReverseMap();
             CreateMap<UpdateEventRequestDto, Event>().ReverseMap();
-            
+
+
+            CreateMap<AddFeedbackRequestDto, Feedback>();
+            CreateMap<Feedback, FeedbackDto>().ReverseMap();
+            CreateMap<UpdateFeedbackRequestDto, Feedback>().ReverseMap();
+
+
 
         }
     }

@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PFA_ProjectAPI.Migrations
 {
     [DbContext(typeof(TBDbContext))]
-    partial class TBDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240526074014_Feedbacks")]
+    partial class Feedbacks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,19 +109,7 @@ namespace PFA_ProjectAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Emoji")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("EventId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Stars")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("EventId");
 
                     b.ToTable("Feedbacks");
                 });
@@ -151,7 +142,8 @@ namespace PFA_ProjectAPI.Migrations
 
                     b.HasIndex("ActivityId");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("EventId")
+                        .IsUnique();
 
                     b.ToTable("Images");
                 });
@@ -160,17 +152,6 @@ namespace PFA_ProjectAPI.Migrations
                 {
                     b.HasOne("PFA_ProjectAPI.Models.Domain.Event", "Event")
                         .WithMany("Activities")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Event");
-                });
-
-            modelBuilder.Entity("PFA_ProjectAPI.Models.Domain.Feedback", b =>
-                {
-                    b.HasOne("PFA_ProjectAPI.Models.Domain.Event", "Event")
-                        .WithMany("Feedbacks")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -187,8 +168,8 @@ namespace PFA_ProjectAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("PFA_ProjectAPI.Models.Domain.Event", "Event")
-                        .WithMany("Images")
-                        .HasForeignKey("EventId")
+                        .WithOne("Image")
+                        .HasForeignKey("PFA_ProjectAPI.Models.Domain.Image", "EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -206,9 +187,7 @@ namespace PFA_ProjectAPI.Migrations
                 {
                     b.Navigation("Activities");
 
-                    b.Navigation("Feedbacks");
-
-                    b.Navigation("Images");
+                    b.Navigation("Image");
                 });
 #pragma warning restore 612, 618
         }

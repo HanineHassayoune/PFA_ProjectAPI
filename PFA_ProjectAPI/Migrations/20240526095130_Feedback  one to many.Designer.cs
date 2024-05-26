@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PFA_ProjectAPI.Migrations
 {
     [DbContext(typeof(TBDbContext))]
-    partial class TBDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240526095130_Feedback  one to many")]
+    partial class Feedbackonetomany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,7 +154,8 @@ namespace PFA_ProjectAPI.Migrations
 
                     b.HasIndex("ActivityId");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("EventId")
+                        .IsUnique();
 
                     b.ToTable("Images");
                 });
@@ -187,8 +191,8 @@ namespace PFA_ProjectAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("PFA_ProjectAPI.Models.Domain.Event", "Event")
-                        .WithMany("Images")
-                        .HasForeignKey("EventId")
+                        .WithOne("Image")
+                        .HasForeignKey("PFA_ProjectAPI.Models.Domain.Image", "EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -208,7 +212,7 @@ namespace PFA_ProjectAPI.Migrations
 
                     b.Navigation("Feedbacks");
 
-                    b.Navigation("Images");
+                    b.Navigation("Image");
                 });
 #pragma warning restore 612, 618
         }
