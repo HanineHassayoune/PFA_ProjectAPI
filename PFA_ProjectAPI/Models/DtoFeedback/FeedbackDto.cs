@@ -6,5 +6,6 @@
         public string Commentaire { get; set; }
         public string Emoji { get; set; }
         public int Stars { get; set; }
+        public Guid EventId { get; set; }
     }
 }
