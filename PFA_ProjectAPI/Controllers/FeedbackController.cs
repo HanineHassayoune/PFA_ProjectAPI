@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PFA_ProjectAPI.Models.Domain;
 using PFA_ProjectAPI.Models.DtoFeadback;
 using PFA_ProjectAPI.Repositories;
+using System.Security.Claims;
 
 namespace PFA_ProjectAPI.Controllers
 {
@@ -11,6 +12,7 @@ namespace PFA_ProjectAPI.Controllers
     //Get : https://localhost:portnumber/api/feedbacks
     [Route("api/[controller]")]
     [ApiController]
+    
     public class FeedbacksController : ControllerBase
     {
         private readonly TBDbContext dbContext;
@@ -73,8 +75,14 @@ namespace PFA_ProjectAPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Récupérez l'ID de l'utilisateur connecté
+           // var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Utilisez User.FindFirstValue pour obtenir l'ID de l'utilisateur connecté
+
             // Map or Convert DTO to Domain Model
             var feedbackDomainModel = mapper.Map<Feedback>(addFeedbackRequestDto);
+
+            // Associez l'ID de l'utilisateur au feedback
+            //feedbackDomainModel.UserId = Guid.Parse(userId);
 
             // Use Domain Model to create feedback
             feedbackDomainModel = await feedbackRepository.CreateAsync(feedbackDomainModel);

@@ -39,8 +39,11 @@ namespace PFA_ProjectAPI.Controllers
 
                 return Ok(new
                 {
-                    message = "User registered successfully",
-                    user = newUser
+                   
+
+                    email=newUser.Email,
+                    role=newUser.Role,
+                    id=newUser.Id,
                 });
             }
             else
@@ -58,7 +61,13 @@ namespace PFA_ProjectAPI.Controllers
             var user = dbContext.Users.FirstOrDefault(x => x.Email == loginDto.Email && x.Password == loginDto.Password);
             if(user != null)
             {
-                return Ok(user);
+                return Ok(new
+                {
+                    email = user.Email,
+                    role = user.Role,
+                    id = user.Id,
+                });
+               
 
             }
             return NoContent();

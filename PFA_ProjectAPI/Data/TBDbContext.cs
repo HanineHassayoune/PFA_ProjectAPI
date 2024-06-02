@@ -51,6 +51,14 @@ namespace API.Data
                 .HasForeignKey(f => f.EventId)
                 .IsRequired();
 
+
+            //Configuration de la relation one-to-many entre User et feedback
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Feedbacks)
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId)
+                .IsRequired();
+
         }
     }
 }

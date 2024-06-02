@@ -116,9 +116,14 @@ namespace PFA_ProjectAPI.Migrations
                     b.Property<int>("Stars")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Feedbacks");
                 });
@@ -202,7 +207,15 @@ namespace PFA_ProjectAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PFA_ProjectAPI.Models.Domain.User", "User")
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Event");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PFA_ProjectAPI.Models.Domain.Image", b =>
@@ -232,6 +245,11 @@ namespace PFA_ProjectAPI.Migrations
                     b.Navigation("Feedbacks");
 
                     b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("PFA_ProjectAPI.Models.Domain.User", b =>
+                {
+                    b.Navigation("Feedbacks");
                 });
 #pragma warning restore 612, 618
         }
