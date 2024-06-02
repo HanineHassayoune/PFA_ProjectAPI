@@ -11,6 +11,7 @@ namespace PFA_ProjectAPI.Controllers
     public class ImagesController : ControllerBase
     {
         private readonly IImageRepository imageRepository;
+
         public ImagesController(IImageRepository imageRepository)
         {
             this.imageRepository = imageRepository;
@@ -63,5 +64,20 @@ namespace PFA_ProjectAPI.Controllers
             // Return the image file or its details as needed
             return Ok(image);
         }
+
+
+        // GET: /api/Images/GetImagesByActivity/{activityId}
+        [HttpGet]
+        [Route("GetImagesByActivity/{activityId}")]
+        public async Task<IActionResult> GetImagesByActivity(Guid activityId)
+        {
+            var images = await imageRepository.GetImagesByActivityIdAsync(activityId);
+            if (images == null || !images.Any())
+            {
+                return NotFound();
+            }
+            return Ok(images);
+        }
     }
 }
+

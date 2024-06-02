@@ -23,6 +23,12 @@ namespace PFA_ProjectAPI.Repositories
             return await dbContext.Images.FirstOrDefaultAsync(i => i.EventId == eventId);
         }
 
+        public async Task<IEnumerable<Image>> GetImagesByActivityIdAsync(Guid activityId)
+        {
+            return await dbContext.Images.Where(i => i.ActivityId == activityId).ToListAsync();
+        }
+
+
         public async Task<Image> Upload(Image image)
         {
             var localFilePath = Path.Combine(webHostEnvironment.ContentRootPath, "Images",
