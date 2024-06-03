@@ -1,19 +1,14 @@
-﻿using API.Data;
-using AutoMapper;
-using Azure.Core;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PFA_ProjectAPI.CustomActionFilter;
-using PFA_ProjectAPI.Models.Domain;
-using PFA_ProjectAPI.Models.DTO;
-using PFA_ProjectAPI.Models.DtoEvent;
-using PFA_ProjectAPI.Models.DtoImage;
-using PFA_ProjectAPI.Models.Enums;
-using PFA_ProjectAPI.Repositories;
+using PFA_ProjectAPI.Controllers.CustomActionFilter;
+using PFA_ProjectAPI.Domain.Models.Domain;
+using PFA_ProjectAPI.Domain.Models.DtoActivity;
+using PFA_ProjectAPI.Domain.Models.DtoImage;
+using PFA_ProjectAPI.Infrastructure.Data;
+using PFA_ProjectAPI.Infrastructure.Repositories;
+
 //using System.Diagnostics;
-using System.Net.NetworkInformation;
 
 namespace PFA_ProjectAPI.Controllers
 {

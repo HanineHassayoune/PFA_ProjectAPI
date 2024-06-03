@@ -1,8 +1,9 @@
-﻿using API.Data;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PFA_ProjectAPI.Models.Domain;
-using PFA_ProjectAPI.Models.DtoUser;
+using PFA_ProjectAPI.Domain.Models.Domain;
+using PFA_ProjectAPI.Domain.Models.DtoUser;
+using PFA_ProjectAPI.Infrastructure.Data;
+
 
 namespace PFA_ProjectAPI.Controllers
 {

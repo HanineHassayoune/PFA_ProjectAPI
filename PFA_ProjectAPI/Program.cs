@@ -1,15 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using API.Data;
-using PFA_ProjectAPI.Repositories;
-using PFA_ProjectAPI.Mappings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using PFA_ProjectAPI.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using System.Net.NetworkInformation;
 using Microsoft.Extensions.FileProviders;
+using PFA_ProjectAPI.Infrastructure.Repositories;
+using PFA_ProjectAPI.Infrastructure.Data;
+using PFA_ProjectAPI.Domain.Mappings;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

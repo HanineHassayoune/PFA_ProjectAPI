@@ -1,9 +1,9 @@
-﻿using API.Data;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using PFA_ProjectAPI.Models.Domain;
-using PFA_ProjectAPI.Models.DtoFeadback;
-using PFA_ProjectAPI.Repositories;
+using PFA_ProjectAPI.Domain.Models.Domain;
+using PFA_ProjectAPI.Domain.Models.DtoFeedback;
+using PFA_ProjectAPI.Infrastructure.Data;
+using PFA_ProjectAPI.Infrastructure.Repositories;
 using System.Security.Claims;
 
 namespace PFA_ProjectAPI.Controllers

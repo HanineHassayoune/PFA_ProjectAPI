@@ -1,13 +1,10 @@
-﻿using API.Data;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using PFA_ProjectAPI.CustomActionFilter;
-using PFA_ProjectAPI.Models.Domain;
-using PFA_ProjectAPI.Models.DTO;
-using PFA_ProjectAPI.Models.DtoEvent;
-using PFA_ProjectAPI.Models.DtoImage;
-using PFA_ProjectAPI.Repositories;
+using PFA_ProjectAPI.Controllers.CustomActionFilter;
+using PFA_ProjectAPI.Domain.Models.Domain;
+using PFA_ProjectAPI.Domain.Models.DtoEvent;
+using PFA_ProjectAPI.Domain.Models.DtoImage;
+using PFA_ProjectAPI.Infrastructure.Repositories;
 
 namespace PFA_ProjectAPI.Controllers
 {

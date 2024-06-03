@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using PFA_ProjectAPI.Models.Domain;
-using PFA_ProjectAPI.Models.DtoImage;
-using PFA_ProjectAPI.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
+using PFA_ProjectAPI.Domain.Models.Domain;
+using PFA_ProjectAPI.Domain.Models.DtoImage;
+using PFA_ProjectAPI.Infrastructure.Repositories;
 
 namespace PFA_ProjectAPI.Controllers
 {

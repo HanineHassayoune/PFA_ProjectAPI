@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using PFA_ProjectAPI.Models.DtoAuth;
-using PFA_ProjectAPI.Repositories;
+using PFA_ProjectAPI.Domain.Models.DtoAuth;
+using PFA_ProjectAPI.Infrastructure.Repositories;
 using System.Data;
 
 namespace PFA_ProjectAPI.Controllers
