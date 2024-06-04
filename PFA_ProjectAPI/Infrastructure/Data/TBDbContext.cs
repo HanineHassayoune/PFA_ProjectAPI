@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using PFA_ProjectAPI.Domain.Models.Domain;
 
 namespace PFA_ProjectAPI.Infrastructure.Data
@@ -54,7 +55,12 @@ namespace PFA_ProjectAPI.Infrastructure.Data
                 .HasMany(e => e.Feedbacks)
                 .WithOne(e => e.User)
                 .HasForeignKey(e => e.UserId)
-                .IsRequired();
+            .IsRequired();
+
+
+        modelBuilder.Entity<Event>()
+       .HasMany(e => e.Users)
+       .WithMany(e => e.Events);
 
         }
     }

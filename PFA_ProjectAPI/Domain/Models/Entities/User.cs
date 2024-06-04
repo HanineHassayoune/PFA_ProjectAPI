@@ -11,5 +11,7 @@ namespace PFA_ProjectAPI.Domain.Models.Domain
         public string Role { get; set; }
 
         public ICollection<Feedback>? Feedbacks { get; set; }
+
+        public ICollection<Event> Events { get; set; }
     }
 }

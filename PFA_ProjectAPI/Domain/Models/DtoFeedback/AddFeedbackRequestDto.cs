@@ -10,5 +10,7 @@ namespace PFA_ProjectAPI.Domain.Models.DtoFeedback
         public int Stars { get; set; }
         public Guid EventId { get; set; }
 
+        public Guid UserId { get; set; }
+
     }
 }

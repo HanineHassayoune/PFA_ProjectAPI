@@ -18,5 +18,7 @@ namespace PFA_ProjectAPI.Domain.Models.Domain
         public ICollection<Activity> Activities { get; set; }
         public ICollection<Image> Images { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }
+
+        public ICollection<User> Users { get; set; }
     }
 }
