@@ -4,8 +4,8 @@ namespace PFA_ProjectAPI.Infrastructure.Repositories
 {
     public interface IEventRepository
     {
-        Task<List<Event>> GetAllAsync(string? filterOn = null, string? filterQuery = null);
-
+        Task<List<Event>> GetAllAsync(Guid userId);
+        Task<List<Event>> GetAllAsync();
 
         Task<Event?> GetByIdAsync(Guid id);
 

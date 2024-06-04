@@ -33,22 +33,19 @@ namespace PFA_ProjectAPI.Infrastructure.Repositories
             return existingEvent;
         }
 
-        //apply sorting , filtring,an pagination in between these two lines
-        public async Task<List<Event>> GetAllAsync(string? filterOn = null, string? filterQuery = null)
+       
+        public async Task<List<Event>> GetAllAsync(Guid userId)
         {
-            var events = dbContext.Events.AsQueryable();
+            var events = dbContext.Events.Where(evt => evt.Users.Select(user => user.Id).Contains(userId));
+            return events.ToList();
+            
+        }
 
-            // Filtring
-            if (!string.IsNullOrWhiteSpace(filterOn) && !string.IsNullOrWhiteSpace(filterQuery))
-            {
-                if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase))
-                {
-                    events = events.Where(x => x.Name.Contains(filterQuery));
-                }
-            }
+        public async Task<List<Event>> GetAllAsync()
+        {
+            var events = dbContext.Events;
+            return events.ToList();
 
-            // Inclure les activités pour chaque événement
-            return await events.Include(e => e.Activities).ToListAsync();
         }
 
 

@@ -14,17 +14,6 @@ namespace PFA_ProjectAPI.Domain.Models.Domain
         public string FileExtension { get; set; }
         public string FilePath { get; set; }
 
-        // Navigation property and foreign key for one-to-one relationship
-        //public Guid EventId { get; set; }
-        //public Event Event { get; set; } 
-
-        // Foreign key and navigation property for many-to-one relationship with Activity
-        //public Guid ActivityId { get; set; }
-        //public Activity Activity { get; set; }
-
-
-
-
         public Guid? ActivityId { get; set; }
         public Activity Activity { get; set; }
 
