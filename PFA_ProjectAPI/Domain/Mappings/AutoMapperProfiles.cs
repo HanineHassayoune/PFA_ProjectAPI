@@ -3,6 +3,7 @@ using PFA_ProjectAPI.Domain.Models.Domain;
 using PFA_ProjectAPI.Domain.Models.DtoActivity;
 using PFA_ProjectAPI.Domain.Models.DtoEvent;
 using PFA_ProjectAPI.Domain.Models.DtoFeedback;
+using PFA_ProjectAPI.Domain.Models.DtoUser;
 
 
 namespace PFA_ProjectAPI.Domain.Mappings
@@ -26,6 +27,10 @@ namespace PFA_ProjectAPI.Domain.Mappings
             CreateMap<AddFeedbackRequestDto, Feedback>();
             CreateMap<Feedback, FeedbackDto>().ReverseMap();
             CreateMap<UpdateFeedbackRequestDto, Feedback>().ReverseMap();
+
+
+            CreateMap<User, UserDto>(); 
+            CreateMap<UserDto, User>();
 
 
 

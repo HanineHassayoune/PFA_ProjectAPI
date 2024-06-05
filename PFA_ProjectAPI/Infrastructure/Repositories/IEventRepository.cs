@@ -17,5 +17,7 @@ namespace PFA_ProjectAPI.Infrastructure.Repositories
         Task<Event?> UpdateAsync(Guid id, Event evnt);
 
         Task<Event?> DeleteAsync(Guid id);
+
+        Task<List<User>> GetEventUsersAsync(Guid eventId);
     }
 }

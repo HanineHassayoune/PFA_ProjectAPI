@@ -34,6 +34,8 @@ namespace PFA_ProjectAPI.Infrastructure.Repositories
         }
 
        
+
+        //afficher la liste des event that user participate in 
         public async Task<List<Event>> GetAllAsync(Guid userId)
         {
             var events = dbContext.Events.Where(evt => evt.Users.Select(user => user.Id).Contains(userId));
@@ -55,7 +57,12 @@ namespace PFA_ProjectAPI.Infrastructure.Repositories
             return await dbContext.Events.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<List<User>> GetEventUsersAsync(Guid eventId)
+        {
+            var users = await dbContext.Users.Where(u => u.Events.Select(evt => evt.Id).Contains(eventId)).ToListAsync();
 
+            return users;
+        }
 
         public async Task<Event?> UpdateAsync(Guid id, Event evnt)
         {

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PFA_ProjectAPI.Domain.Models.Domain;
 using PFA_ProjectAPI.Domain.Models.DtoUser;
 using PFA_ProjectAPI.Infrastructure.Data;
+using PFA_ProjectAPI.Infrastructure.Repositories;
 
 
 namespace PFA_ProjectAPI.Controllers
@@ -12,9 +14,13 @@ namespace PFA_ProjectAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly TBDbContext dbContext;
-        public UsersController(TBDbContext dbContext)
+        private readonly IMapper mapper;
+        private readonly IEventRepository eventRepository;
+        public UsersController(TBDbContext dbContext, IEventRepository eventRepository, IMapper mapper)
         {
             this.dbContext = dbContext;
+            this.eventRepository = eventRepository;
+            this.mapper = mapper;
         }
         [HttpPost]
         [Route("Registration")]
@@ -92,6 +98,14 @@ namespace PFA_ProjectAPI.Controllers
                 return Ok(user);
             else
                 return NoContent();
+        }
+
+        //gets participants that have participated at this event
+        [HttpGet("events/{eventId}/users")]
+        public async Task<IActionResult> GetEventUsers(Guid eventId)
+        {
+            var eventUsers = await eventRepository.GetEventUsersAsync(eventId);
+            return Ok(mapper.Map<List<UserDto>>(eventUsers));
         }
 
 
