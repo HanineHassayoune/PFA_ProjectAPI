@@ -34,13 +34,14 @@ namespace PFA_ProjectAPI.Infrastructure.Data
                 .HasMany(e => e.Activities)
                 .WithOne(a => a.Event)
                 .HasForeignKey(a => a.EventId)
-                .IsRequired();
+                .IsRequired().OnDelete(DeleteBehavior.Cascade);
 
             // Configuration de la relation one-to-one entre Event et Image
             modelBuilder.Entity<Event>()
                  .HasMany(e => e.Images)
                 .WithOne(e => e.Event)
-               .HasForeignKey(e => e.EventId);
+               .HasForeignKey(e => e.EventId)
+               .OnDelete(DeleteBehavior.Cascade);
             //.IsRequired();
 
             //Configuration de la relation one-to-many entre Event et feedback
@@ -48,7 +49,7 @@ namespace PFA_ProjectAPI.Infrastructure.Data
                 .HasMany(e => e.Feedbacks)
                 .WithOne(f => f.Event)
                 .HasForeignKey(f => f.EventId)
-                .IsRequired();
+                .IsRequired().OnDelete(DeleteBehavior.Cascade);
 
 
             //Configuration de la relation one-to-many entre User et feedback
@@ -56,12 +57,12 @@ namespace PFA_ProjectAPI.Infrastructure.Data
                 .HasMany(e => e.Feedbacks)
                 .WithOne(e => e.User)
                 .HasForeignKey(e => e.UserId)
-            .IsRequired();
+                .IsRequired().OnDelete(DeleteBehavior.Cascade);
 
 
-        modelBuilder.Entity<Event>()
-       .HasMany(e => e.Users)
-       .WithMany(e => e.Events);
+            modelBuilder.Entity<Event>()
+               .HasMany(e => e.Users)
+               .WithMany(e => e.Events);
 
         }
     }
