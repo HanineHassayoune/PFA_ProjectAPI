@@ -41,6 +41,7 @@ namespace PFA_ProjectAPI.Infrastructure.Repositories
             
         }
 
+
         public async Task<List<Event>> GetAllAsync()
         {
             var events = dbContext.Events;

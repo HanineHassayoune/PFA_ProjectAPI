@@ -11,6 +11,7 @@ namespace PFA_ProjectAPI.Infrastructure.Data
 
         }
 
+
         public DbSet<Event> Events { get; set; }
         public DbSet<Activity> Activities { get; set; }
 

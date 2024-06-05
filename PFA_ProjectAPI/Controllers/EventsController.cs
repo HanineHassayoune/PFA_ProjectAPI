@@ -66,7 +66,6 @@ namespace PFA_ProjectAPI.Controllers
         }
 
         //GET Events
-        //GET: /api/Events?filterOn=Name&filterQueru=Track
         [HttpGet("events/user")]
         public async Task<IActionResult> GetAll(Guid userId)
         {
@@ -76,6 +75,7 @@ namespace PFA_ProjectAPI.Controllers
 
         }
 
+       
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -141,7 +141,7 @@ namespace PFA_ProjectAPI.Controllers
         }
         
 
-
+        
         
     }
 }
